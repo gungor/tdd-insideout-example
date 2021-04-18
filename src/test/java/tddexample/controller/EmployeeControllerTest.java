@@ -112,6 +112,12 @@ public class EmployeeControllerTest {
         Assertions.assertEquals("FBaggins",savedEmployee.getFullName());
     }
 
+    @Test
+    public void shouldGetBadRequestWhenEmployeeNotFoundExceptionThrown() throws Exception {
+        mockMvc.perform(get("/employees/20"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
     @AfterEach
     public void cleanUp(){
 
