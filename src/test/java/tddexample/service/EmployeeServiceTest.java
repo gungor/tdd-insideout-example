@@ -60,6 +60,16 @@ public class EmployeeServiceTest {
         Assertions.assertThrows(EmployeeNotFoundException.class, () -> employeeService.updateEmployee(request));
     }
 
+    @Test
+    public void shouldGetEmployeeWhenIdExists(){
+        Employee savedEmployee = transactionTemplate.execute(transactionStatus -> {
+            Employee e = testEntityManager.persistAndFlush(new Employee(null,"Frodo Baggins"));
+            transactionStatus.flush();
+            return e;
+        });
+        Assertions.assertEquals(savedEmployee, employeeService.getEmployee(savedEmployee.getId()));
+    }
+
     @AfterEach
     public void cleanUp(){
         transactionTemplate.execute(transactionStatus -> {

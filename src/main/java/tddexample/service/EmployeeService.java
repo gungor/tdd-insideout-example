@@ -30,5 +30,8 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException());
     }
 
+    public Employee getEmployee(Integer employeeId) {
+        return null;
+    }
 
 }
