@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.support.TransactionTemplate;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
+import tddexample.model.rest.EmployeeUpdateRequest;
 
 
 @SpringBootTest
@@ -36,6 +37,20 @@ public class EmployeeServiceTest {
 
         Assertions.assertEquals( "Frodo Baggins", savedEmployee.getFullName() );
         Assertions.assertNotNull( savedEmployee.getId() );
+    }
+
+    @Test
+    public void shouldUpdateEmployee(){
+        Employee employee = transactionTemplate.execute(transactionStatus -> {
+            Employee e = testEntityManager.persistAndFlush(new Employee(null,"F. Baggins"));
+            transactionStatus.flush();
+            return e;
+        });
+
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(employee.getId(),"Frodo Baggins");
+        Employee updatedEmployee = employeeService.updateEmployee(request);
+
+        Assertions.assertEquals( "Frodo Baggins", updatedEmployee.getFullName() );
     }
 
     @AfterEach

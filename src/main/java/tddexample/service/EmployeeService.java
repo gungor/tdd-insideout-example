@@ -3,6 +3,7 @@ package tddexample.service;
 import org.springframework.stereotype.Service;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
+import tddexample.model.rest.EmployeeUpdateRequest;
 import tddexample.repository.EmployeeRepository;
 
 @Service
@@ -18,5 +19,10 @@ public class EmployeeService {
         Employee employee = new Employee(null,request.getFullName());
         return employeeRepository.save(employee);
     }
+
+    public Employee updateEmployee(EmployeeUpdateRequest request) {
+        return null;
+    }
+
 
 }
