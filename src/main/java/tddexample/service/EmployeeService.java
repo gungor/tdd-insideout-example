@@ -31,7 +31,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployee(Integer employeeId) {
-        return employeeRepository.findById(employeeId).get();
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException());
     }
 
 }
