@@ -34,4 +34,8 @@ public class EmployeeService {
         return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException());
     }
 
+    public Employee getEmployeeByName(String fullName) {
+        return null;
+    }
+
 }

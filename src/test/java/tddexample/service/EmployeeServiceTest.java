@@ -76,6 +76,18 @@ public class EmployeeServiceTest {
                 () -> employeeService.getEmployee(20));
     }
 
+    @Test
+    public void shouldReturnEmployeeWhenFoundByName(){
+        Employee savedEmployee = transactionTemplate.execute(transactionStatus -> {
+            Employee e = testEntityManager.persistAndFlush(new Employee(null,"Frodo Baggins"));
+            transactionStatus.flush();
+            return e;
+        });
+
+        Employee employeeFoundByName = employeeService.getEmployeeByName("Frodo Baggins");
+        Assertions.assertEquals("Frodo Baggins",employeeFoundByName.getFullName());
+    }
+
     @AfterEach
     public void cleanUp(){
         transactionTemplate.execute(transactionStatus -> {
