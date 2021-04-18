@@ -54,6 +54,26 @@ public class EmployeeControllerTest {
         Assertions.assertEquals("Frodo Baggins",savedEmployee.getFullName());
     }
 
+    @Test
+    public void shouldUpdateEmployee() throws Exception {
+        Employee savedEmployee = transactionTemplate.execute(transactionStatus -> {
+            Employee e = testEntityManager.persistAndFlush(new Employee(null,"F. Baggins"));
+            transactionStatus.flush();
+            return e;
+        });
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(savedEmployee.getId(),"Frodo Baggins");
+        MvcResult result = mockMvc.perform(put("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content( objectMapper.writeValueAsString(request))
+        ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        Employee updatedEmployee = objectMapper.readValue(result.getResponse().getContentAsString(),
+                Employee.class );
+
+        Assertions.assertEquals("Frodo Baggins",updatedEmployee.getFullName());
+    }
+
     @AfterEach
     public void cleanUp(){
 
