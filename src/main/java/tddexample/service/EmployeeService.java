@@ -15,7 +15,8 @@ public class EmployeeService {
     }
 
     public Employee saveEmployee(EmployeeSaveRequest request) {
-        return null;
+        Employee employee = new Employee(null,request.getFullName());
+        return employeeRepository.save(employee);
     }
 
 }
