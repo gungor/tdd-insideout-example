@@ -93,6 +93,25 @@ public class EmployeeControllerTest {
         Assertions.assertEquals("Frodo Baggins",savedEmployee.getFullName());
     }
 
+    @Test
+    public void shouldGetEmployeeWhenCalledWithExistingEmployeeName() throws Exception {
+        Employee employee = transactionTemplate.execute(transactionStatus -> {
+            Employee e = testEntityManager.persistAndFlush(new Employee(null,"FBaggins"));
+            transactionStatus.flush();
+            return e;
+        });
+
+        MvcResult result = mockMvc.perform(get("/employees/name/"+employee.getFullName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        Employee savedEmployee = objectMapper.readValue(result.getResponse().getContentAsString(),
+                Employee.class );
+
+        Assertions.assertEquals("FBaggins",savedEmployee.getFullName());
+    }
+
     @AfterEach
     public void cleanUp(){
 
