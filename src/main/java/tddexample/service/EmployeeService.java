@@ -35,7 +35,8 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByName(String fullName) {
-        return employeeRepository.findByFullName(fullName).get();
+        return employeeRepository.findByFullName(fullName)
+                .orElseThrow(() -> new EmployeeNotFoundException());
     }
 
 }
