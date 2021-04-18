@@ -30,4 +30,8 @@ public class EmployeeController {
         return employeeService.getEmployee(id);
     }
 
+    @GetMapping("/employees/name/{name}")
+    Employee getEmployee(@PathVariable String name) {
+        return employeeService.getEmployeeByName(name);
+    }
 }
