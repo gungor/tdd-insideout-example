@@ -88,6 +88,12 @@ public class EmployeeServiceTest {
         Assertions.assertEquals("Frodo Baggins",employeeFoundByName.getFullName());
     }
 
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionWhenNotFoundByName(){
+        Assertions.assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.getEmployeeByName("Frodo Baggins"));
+    }
+
     @AfterEach
     public void cleanUp(){
         transactionTemplate.execute(transactionStatus -> {
