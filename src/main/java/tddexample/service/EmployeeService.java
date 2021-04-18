@@ -1,6 +1,7 @@
 package tddexample.service;
 
 import org.springframework.stereotype.Service;
+import tddexample.exception.EmployeeNotFoundException;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
 import tddexample.model.rest.EmployeeUpdateRequest;
@@ -25,7 +26,8 @@ public class EmployeeService {
                 .map( employee -> {
                     employee.setFullName(request.getFullName());
                     return employeeRepository.save(employee);
-                }).get();
+                })
+                .orElseThrow(() -> new EmployeeNotFoundException());
     }
 
 
