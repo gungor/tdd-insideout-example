@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.support.TransactionTemplate;
+import tddexample.exception.EmployeeNotFoundException;
 import tddexample.model.entity.Employee;
 import tddexample.model.rest.EmployeeSaveRequest;
 import tddexample.model.rest.EmployeeUpdateRequest;
@@ -51,6 +52,12 @@ public class EmployeeServiceTest {
         Employee updatedEmployee = employeeService.updateEmployee(request);
 
         Assertions.assertEquals( "Frodo Baggins", updatedEmployee.getFullName() );
+    }
+
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionFromUpdateWhenIdNotExists(){
+        EmployeeUpdateRequest request = new EmployeeUpdateRequest(1,"Frodo Baggins");
+        Assertions.assertThrows(EmployeeNotFoundException.class, () -> employeeService.updateEmployee(request));
     }
 
     @AfterEach
