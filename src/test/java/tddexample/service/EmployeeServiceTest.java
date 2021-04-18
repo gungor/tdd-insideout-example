@@ -70,6 +70,12 @@ public class EmployeeServiceTest {
         Assertions.assertEquals(savedEmployee, employeeService.getEmployee(savedEmployee.getId()));
     }
 
+    @Test
+    public void shouldThrowEmployeeNotFoundExceptionFromGetWhenIdNotExist(){
+        Assertions.assertThrows(EmployeeNotFoundException.class,
+                () -> employeeService.getEmployee(20));
+    }
+
     @AfterEach
     public void cleanUp(){
         transactionTemplate.execute(transactionStatus -> {
