@@ -21,7 +21,11 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(EmployeeUpdateRequest request) {
-        return null;
+        return employeeRepository.findById(request.getId())
+                .map( employee -> {
+                    employee.setFullName(request.getFullName());
+                    return employeeRepository.save(employee);
+                }).get();
     }
 
 
